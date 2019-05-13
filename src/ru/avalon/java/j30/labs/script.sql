@@ -1,6 +1,7 @@
 create table roles
 (
-    id int unique,
+    id int not null unique
+    generated always as identity(start with 1, increment by 1),
     name varchar(255) primary key
 );
 
@@ -13,37 +14,37 @@ create table userinfo
 
 create table users
 (
-    id int unique,
-    password varchar(255),
-    email varchar(255) primary key, 
-    info int unique references userinfo(id),
-    roles int references roles(id)
+    id int not null unique,
+    password varchar(255) not null,
+    email varchar(255) not null primary key, 
+    info int not null unique references userinfo(id),
+    roles int not null references roles(id)
 );
 
 create table supplier
 (
-    id int unique,
+    id int not null unique,
     name varchar(255) primary key,
-    address varchar(255) not null,
-    phone varchar(255),
-    representative varchar(255) not null   
+    address varchar(255),
+    phone varchar(255) not null,
+    representative varchar(255)   
 );
 
 create table product 
 (
-    id int unique,
+    id int not null unique,
     code varchar(255) primary key, 
-    title varchar(255),
-    supplier int references supplier(id),
-    initial_price double,
-    retail_value double
+    title varchar(255) not null,
+    supplier int not null references supplier(id),
+    initial_price double not null,
+    retail_value double not null
 );
 
 create table orders
 (
     id int primary key,
-    users int references users(id),
-    created timestamp default current_timestamp
+    users int not null references users(id),
+    created timestamp not null default current_timestamp
 );
 
 create table order2product
